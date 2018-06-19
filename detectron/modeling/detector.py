@@ -105,7 +105,6 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             return self.net.AffineChannel([blob_in, scale, bias], blob_out)
 
     def GenerateProposals(self, blobs_in, blobs_out, anchors, spatial_scale):
-        print(blobs_in)
         """Op for generating RPN porposals.
 
         blobs_in:

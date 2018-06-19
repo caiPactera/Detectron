@@ -16,7 +16,7 @@
 # Based on:
 # --------------------------------------------------------
 # Faster R-CNN
-# Copyright (c) 2015 Microsoft
+# Copyright (c) 2015 MicrosoftGenerateProposals
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Ross Girshick and Sean Bell
 # --------------------------------------------------------
@@ -29,7 +29,7 @@ import detectron.utils.boxes as box_utils
 
 class GenerateProposalsOp(object):
     """Output object detection proposals by applying estimated bounding-box
-    transformations to a set of regular boxes (called "anchors").
+    transformations to a set of regular boxes (calle---d "anchors").
     """
 
     def __init__(self, anchors, spatial_scale, train):
@@ -37,6 +37,9 @@ class GenerateProposalsOp(object):
         self._num_anchors = self._anchors.shape[0]
         self._feat_stride = 1. / spatial_scale
         self._train = train
+        print(train)
+        print(spatial_scale)
+        print(anchors)
 
     def forward(self, inputs, outputs):
         """See modeling.detector.GenerateProposals for inputs/outputs
