@@ -65,8 +65,6 @@ class GenerateProposalsOp(object):
 
         print('!!!!!!!!!!!!!!scores!!!!!!!!!!!!!!')
         print(scores)
-        print(scores.shape)print('!!!!!!!!!!!!!!bbox_deltas!!!!!!!!!!!!!!!!!!!!')
-        print(scores)
         print(scores.shape)
 
         print('!!!!!!!!!!!!!!bbox_deltas!!!!!!!!!!!!!!!!!!!!')
