@@ -53,6 +53,8 @@ def add_generic_rpn_outputs(model, blob_in, dim_in, spatial_scale_in):
 
 
 def add_single_scale_rpn_outputs(model, blob_in, dim_in, spatial_scale):
+    print(blob_in)
+    print(spatial_scale)
     """Add RPN outputs to a single scale model (i.e., no FPN)."""
     anchors = generate_anchors(
         stride=1. / spatial_scale,
