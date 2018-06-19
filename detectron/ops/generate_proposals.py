@@ -37,11 +37,9 @@ class GenerateProposalsOp(object):
         self._num_anchors = self._anchors.shape[0]
         self._feat_stride = 1. / spatial_scale
         self._train = train
-        print(train)
-        print(spatial_scale)
-        print(anchors)
 
     def forward(self, inputs, outputs):
+        print(inputs)
         """See modeling.detector.GenerateProposals for inputs/outputs
         documentation.
         """
