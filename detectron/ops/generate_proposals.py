@@ -63,7 +63,25 @@ class GenerateProposalsOp(object):
         # 1. Generate proposals from bbox deltas and shifted anchors
         height, width = scores.shape[-2:]
 
-        print(scores,bbox_deltas,im_info,height,width)
+        print('!!!!!!!!!!!!!!scores!!!!!!!!!!!!!!')
+        print(scores)
+        print(scores.shape)print('!!!!!!!!!!!!!!bbox_deltas!!!!!!!!!!!!!!!!!!!!')
+        print(scores)
+        print(scores.shape)
+
+        print('!!!!!!!!!!!!!!bbox_deltas!!!!!!!!!!!!!!!!!!!!')
+        print(bbox_deltas)
+        print(bbox_deltas.shape)
+
+        print('!!!!!!!!!!!!!!im_info!!!!!!!!!!!!!!!!!!!!')
+        print(im_info)
+
+        print('!!!!!!!!!!!!!!height!!!!!!!!!!!!!!!!!!!!')
+        print(height)
+
+        print('!!!!!!!!!!!!!!width!!!!!!!!!!!!!!!!!!!!')
+        print(width)
+        
 
         # Enumerate all shifted positions on the (H, W) grid
         shift_x = np.arange(0, width) * self._feat_stride
