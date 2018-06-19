@@ -37,9 +37,6 @@ class GenerateProposalsOp(object):
         self._num_anchors = self._anchors.shape[0]
         self._feat_stride = 1. / spatial_scale
         self._train = train
-        print(train)
-        print(spatial_scale)
-        print(anchors)
 
     def forward(self, inputs, outputs):
         """See modeling.detector.GenerateProposals for inputs/outputs
@@ -65,6 +62,9 @@ class GenerateProposalsOp(object):
         im_info = inputs[2].data
         # 1. Generate proposals from bbox deltas and shifted anchors
         height, width = scores.shape[-2:]
+
+        print(scores,bbox_deltas,im_info,height,width)
+
         # Enumerate all shifted positions on the (H, W) grid
         shift_x = np.arange(0, width) * self._feat_stride
         shift_y = np.arange(0, height) * self._feat_stride
