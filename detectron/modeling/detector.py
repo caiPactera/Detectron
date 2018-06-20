@@ -36,6 +36,7 @@ from detectron.ops.generate_proposal_labels import GenerateProposalLabelsOp
 from detectron.ops.generate_proposals import GenerateProposalsOp
 import detectron.roi_data.fast_rcnn as fast_rcnn_roi_data
 import detectron.utils.c2 as c2_utils
+from pprint import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -286,6 +287,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             xform_out = self.net.BatchPermutation(
                 [xform_shuffled, restore_bl], blob_out
             )
+            pprint(xform_out)
         else:
             # Single feature level
             bl_argmax = ['_argmax_' + blob_out] if has_argmax else []
