@@ -64,22 +64,13 @@ class GenerateProposalsOp(object):
         # 1. Generate proposals from bbox deltas and shifted anchors
         height, width = scores.shape[-2:]
 
-        print('!!!!!!!!!!!!!!scores!!!!!!!!!!!!!!')
-        print(scores)
-        print(scores.shape)
+        # print('!!!!!!!!!!!!!!scores!!!!!!!!!!!!!!')
+        # print(scores)
+        # print(scores.shape)
 
-        print('!!!!!!!!!!!!!!bbox_deltas!!!!!!!!!!!!!!!!!!!!')
-        print(bbox_deltas)
-        print(bbox_deltas.shape)
-
-        print('!!!!!!!!!!!!!!im_info!!!!!!!!!!!!!!!!!!!!')
-        print(im_info)
-
-        print('!!!!!!!!!!!!!!height!!!!!!!!!!!!!!!!!!!!')
-        print(height)
-
-        print('!!!!!!!!!!!!!!width!!!!!!!!!!!!!!!!!!!!')
-        print(width)
+        # print('!!!!!!!!!!!!!!bbox_deltas!!!!!!!!!!!!!!!!!!!!')
+        # print(bbox_deltas)
+        # print(bbox_deltas.shape)
         
 
         # Enumerate all shifted positions on the (H, W) grid
@@ -102,7 +93,7 @@ class GenerateProposalsOp(object):
         K = shifts.shape[0]
         all_anchors = self._anchors[np.newaxis, :, :] + shifts[:, np.newaxis, :]
         all_anchors = all_anchors.reshape((K * A, 4))
-
+        print(all_anchors)
         rois = np.empty((0, 5), dtype=np.float32)
         roi_probs = np.empty((0, 1), dtype=np.float32)
         for im_i in range(num_images):
