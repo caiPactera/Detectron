@@ -225,9 +225,9 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             CollectAndDistributeFpnRpnProposalsOp(self.train).forward
         )(blobs_in, blobs_out, name=name)
 
-        someout = self.net.Python(
-            OutputFpnFeatures(self.train).forward
-        )(blobs_in, blobs_out, name=name)
+        # someout = self.net.Python(
+        #     OutputFpnFeatures(self.train).forward
+        # )(blobs_in, blobs_out, name=name)
         return outputs
 
     def DropoutIfTraining(self, blob_in, dropout_rate):
