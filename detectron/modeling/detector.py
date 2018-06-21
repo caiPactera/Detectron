@@ -32,6 +32,7 @@ from caffe2.python.modeling.parameter_info import ParameterTags
 from detectron.core.config import cfg
 from detectron.ops.collect_and_distribute_fpn_rpn_proposals \
     import CollectAndDistributeFpnRpnProposalsOp
+from detectron.ops.output_fpn_features import OutputFpnFeatures
 from detectron.ops.generate_proposal_labels import GenerateProposalLabelsOp
 from detectron.ops.generate_proposals import GenerateProposalsOp
 import detectron.roi_data.fast_rcnn as fast_rcnn_roi_data
@@ -224,6 +225,9 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             CollectAndDistributeFpnRpnProposalsOp(self.train).forward
         )(blobs_in, blobs_out, name=name)
 
+        someout = self.net.Python(
+            OutputFpnFeatures(self.train).forward
+        )(blobs_in, blobs_out, name=name)
         return outputs
 
     def DropoutIfTraining(self, blob_in, dropout_rate):
@@ -246,7 +250,6 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         spatial_scale=1. / 16.,
         sampling_ratio=0
     ):
-        print(len(blobs_in))
         """Add the specified RoI pooling method. The sampling_ratio argument
         is supported for some, but not all, RoI transform methods.
 
@@ -288,7 +291,6 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             xform_out = self.net.BatchPermutation(
                 [xform_shuffled, restore_bl], blob_out
             )
-            print(xform_out)
         else:
             # Single feature level
             bl_argmax = ['_argmax_' + blob_out] if has_argmax else []

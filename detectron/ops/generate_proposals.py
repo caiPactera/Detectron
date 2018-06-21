@@ -42,6 +42,7 @@ class GenerateProposalsOp(object):
         """See modeling.detector.GenerateProposals for inputs/outputs
         documentation.
         """
+        print(inputs)
         # 1. for each location i in a (H, W) grid:
         #      generate A anchor boxes centered on cell i
         #      apply predicted bbox deltas to each of the A anchors at cell i
