@@ -18,7 +18,7 @@ class OutputFpnFeatures(object):
         self._train = train
 
     def forward(self, inputs, outputs):
-        # print(inputs)
+        print(inputs)
         # """See modeling.detector.CollectAndDistributeFpnRpnProposals for
         # inputs/outputs documentation.
         # """
