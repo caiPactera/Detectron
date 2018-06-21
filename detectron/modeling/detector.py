@@ -246,7 +246,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         spatial_scale=1. / 16.,
         sampling_ratio=0
     ):
-        # print(len(blobs_in))
+        print(len(blobs_in))
         """Add the specified RoI pooling method. The sampling_ratio argument
         is supported for some, but not all, RoI transform methods.
 
