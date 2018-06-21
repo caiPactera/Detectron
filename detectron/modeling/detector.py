@@ -288,6 +288,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             xform_out = self.net.BatchPermutation(
                 [xform_shuffled, restore_bl], blob_out
             )
+            print(xform_out)
         else:
             # Single feature level
             bl_argmax = ['_argmax_' + blob_out] if has_argmax else []
