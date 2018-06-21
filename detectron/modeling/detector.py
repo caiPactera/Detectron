@@ -221,14 +221,43 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         )
         blobs_out = [core.ScopedBlobReference(b) for b in blobs_out]
 
+        # someout = self.net.Python(
+        #     OutputFpnFeatures(self.train).forward
+        # )(blobs_in, blobs_out, name=name)
+
         outputs = self.net.Python(
             CollectAndDistributeFpnRpnProposalsOp(self.train).forward
         )(blobs_in, blobs_out, name=name)
 
-        # someout = self.net.Python(
-        #     OutputFpnFeatures(self.train).forward
-        # )(blobs_in, blobs_out, name=name)
         return outputs
+
+
+    def OutputFpn(self):
+        k_max = cfg.FPN.RPN_MAX_LEVEL
+        k_min = cfg.FPN.RPN_MIN_LEVEL
+
+        # Prepare input blobs
+        rois_names = ['rpn_rois_fpn' + str(l) for l in range(k_min, k_max + 1)]
+        score_names = [
+            'rpn_roi_probs_fpn' + str(l) for l in range(k_min, k_max + 1)
+        ]
+        blobs_in = rois_names + score_names
+        if self.train:
+            blobs_in += ['roidb', 'im_info']
+        blobs_in = [core.ScopedBlobReference(b) for b in blobs_in]
+        name = 'CollectAndDistributeFpnRpnProposalsOp:' + ','.join(
+            [str(b) for b in blobs_in]
+        )
+
+        # Prepare output blobs
+        blobs_out = 'featureOutPut'
+
+        someout = self.net.Python(
+            OutputFpnFeatures(self.train).forward
+        )(blobs_in, blobs_out, name=name)
+
+        return someout
+
 
     def DropoutIfTraining(self, blob_in, dropout_rate):
         """Add dropout to blob_in if the model is in training mode and
