@@ -287,7 +287,6 @@ class DetectionModelHelper(cnn.CNNModelHelper):
             xform_out = self.net.BatchPermutation(
                 [xform_shuffled, restore_bl], blob_out
             )
-            pprint(xform_out)
         else:
             # Single feature level
             bl_argmax = ['_argmax_' + blob_out] if has_argmax else []
@@ -300,6 +299,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
                 sampling_ratio=sampling_ratio
             )
         # Only return the first blob (the transformed features)
+        pprint(xform_out[0] if isinstance(xform_out, tuple) else xform_out
         return xform_out[0] if isinstance(xform_out, tuple) else xform_out
 
     def ConvShared(
