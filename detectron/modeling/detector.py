@@ -250,7 +250,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         )
 
         # Prepare output blobs
-        blobs_out = 'featureOutPut'
+        blobs_out = blobs_in
 
         someout = self.net.Python(
             OutputFpnFeatures(self.train).forward
