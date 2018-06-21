@@ -246,6 +246,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         spatial_scale=1. / 16.,
         sampling_ratio=0
     ):
+        print(blobs_in)
         """Add the specified RoI pooling method. The sampling_ratio argument
         is supported for some, but not all, RoI transform methods.
 
@@ -299,7 +300,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
                 sampling_ratio=sampling_ratio
             )
         # Only return the first blob (the transformed features)
-        pprint(xform_out[0] if isinstance(xform_out, tuple) else xform_out)
+        # pprint(xform_out[0] if isinstance(xform_out, tuple) else xform_out)
         return xform_out[0] if isinstance(xform_out, tuple) else xform_out
 
     def ConvShared(
