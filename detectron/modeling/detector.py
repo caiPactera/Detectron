@@ -299,7 +299,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
     #     return xform_out[0] if isinstance(xform_out, tuple) else xform_out
 
 
-    def OutputFpn(self, blobs_in, blobs_out, name):
+    def OutputFpn(self, blobs_in, name):
 
     #     # Prepare input blobs
         # blobs_in = []
@@ -330,11 +330,10 @@ class DetectionModelHelper(cnn.CNNModelHelper):
     #             sampling_ratio=sampling_ratio
     #         )
         # Prepare output blobs
-        # blobs_out = blobs_in
-
+        blobs_out = blobs_in
         output = self.net.Python(
             OutputFpnFeatures(self.train).forward
-        )(blobs_in, blobs_in, name=name)
+        )(blobs_in, blobs_out, name=name)
 
         return output
 
