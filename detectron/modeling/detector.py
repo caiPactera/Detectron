@@ -301,19 +301,19 @@ class DetectionModelHelper(cnn.CNNModelHelper):
 
     def OutputFpn(self, blob_in):
         print(blob_in)
-        k_max = cfg.FPN.RPN_MAX_LEVEL
-        k_min = cfg.FPN.RPN_MIN_LEVEL
+        # k_max = cfg.FPN.RPN_MAX_LEVEL
+        # k_min = cfg.FPN.RPN_MIN_LEVEL
 
-        # Prepare input blobs
-        rois_names = ['rpn_rois_fpn' + str(l) for l in range(k_min, k_max + 1)]
-        score_names = [
-            'rpn_roi_probs_fpn' + str(l) for l in range(k_min, k_max + 1)
-        ]
-        blobs_in = rois_names + score_names
-        if self.train:
-            blobs_in += ['roidb', 'im_info']
-        blobs_in = [core.ScopedBlobReference(b) for b in blobs_in]
-        blob_in = blobs_in[0]
+        # # Prepare input blobs
+        # rois_names = ['rpn_rois_fpn' + str(l) for l in range(k_min, k_max + 1)]
+        # score_names = [
+        #     'rpn_roi_probs_fpn' + str(l) for l in range(k_min, k_max + 1)
+        # ]
+        # blobs_in = rois_names + score_names
+        # if self.train:
+        #     blobs_in += ['roidb', 'im_info']
+        # blobs_in = [core.ScopedBlobReference(b) for b in blobs_in]
+        # blob_in = blobs_in[0]
         blob_out = blob_in
         output = self.net.Python(
             OutputFpnFeatures(self.train).forward
