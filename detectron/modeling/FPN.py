@@ -214,7 +214,7 @@ def add_fpn(model, fpn_level_info):
                 bias_init=const_fill(0.0)
             )
         
-        b_in = 'fpn_{}'.format(fpn_level_info.blobs[i])
+        # b_in = 'fpn_{}'.format(fpn_level_info.blobs[i])
         # model.OutputFpn(b_in,b_in)
 
 
