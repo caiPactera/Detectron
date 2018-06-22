@@ -215,7 +215,7 @@ def add_fpn(model, fpn_level_info):
             )
         
         b_in = 'fpn_{}'.format(fpn_level_info.blobs[i])
-        model.OutputFpn(b_in,b_in)
+        model.OutputFpn(b_in)
 
 
         blobs_fpn += [fpn_blob]
