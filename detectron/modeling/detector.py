@@ -299,7 +299,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
     #     return xform_out[0] if isinstance(xform_out, tuple) else xform_out
 
 
-    def OutputFpn(self):
+    def OutputFpn(self, blob_in):
         k_max = cfg.FPN.RPN_MAX_LEVEL
         k_min = cfg.FPN.RPN_MIN_LEVEL
 
@@ -312,36 +312,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
         if self.train:
             blobs_in += ['roidb', 'im_info']
         blobs_in = [core.ScopedBlobReference(b) for b in blobs_in]
-
-    #     # Prepare input blobs
-        # blobs_in = []
-    #     blob_rois = 'rois'
-    #     method='RoIPoolF'
-    #     resolution=7
-    #     spatial_scale=1. / 16.
-    #     sampling_ratio=0
-    #     k_max = cfg.FPN.ROI_MAX_LEVEL  # coarsest level of pyramid
-    #     k_min = cfg.FPN.ROI_MIN_LEVEL  # finest level of pyramid
-    #     assert method in {'RoIPoolF', 'RoIAlign'}, \
-    #         'Unknown pooling method: {}'.format(method)
-    #     has_argmax = (method == 'RoIPoolF')
-    #     assert len(blobs_in) == k_max - k_min + 1
-    #     bl_out_list = []
-    #     for lvl in range(k_min, k_max + 1):
-    #         bl_in = blobs_in[k_max - lvl]  # blobs_in is in reversed order
-    #         sc = spatial_scale[k_max - lvl]  # in reversed order
-    #         bl_rois = blob_rois + '_fpn' + str(lvl)
-    #         bl_out = blob_out + '_fpn' + str(lvl)
-    #         bl_out_list.append(bl_out)
-    #         bl_argmax = ['_argmax_' + bl_out] if has_argmax else []
-    #         self.net.__getattr__(method)(
-    #             [bl_in, bl_rois], [bl_out] + bl_argmax,
-    #             pooled_w=resolution,
-    #             pooled_h=resolution,
-    #             spatial_scale=sc,
-    #             sampling_ratio=sampling_ratio
-    #         )
-        # Prepare output blobs
+        blobs_in = blobs_in[0]
         blobs_out = blobs_in
         output = self.net.Python(
             OutputFpnFeatures(self.train).forward

@@ -216,9 +216,6 @@ def add_fpn(model, fpn_level_info):
 
         blobs_fpn += [fpn_blob]
         spatial_scales += [fpn_level_info.spatial_scales[i]]
-        
-        #modefid:
-        model.OutputFpn()
 
     #
     # Step 2: build up starting from the coarsest backbone level
