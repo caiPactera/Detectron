@@ -44,7 +44,7 @@ def add_generic_rpn_outputs(model, blob_in, dim_in, spatial_scale_in):
             model.CollectAndDistributeFpnRpnProposals()
 
             #modefid:
-            model.OutputFpn(blob_in, 'fpnout')
+            model.OutputFpn()
 
 
 
