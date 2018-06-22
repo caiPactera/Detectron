@@ -300,7 +300,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
 
 
     def OutputFpn(self, blob_in):
-        print(blob_in)
+        # print(blob_in)
         # k_max = cfg.FPN.RPN_MAX_LEVEL
         # k_min = cfg.FPN.RPN_MIN_LEVEL
 
