@@ -299,7 +299,7 @@ class DetectionModelHelper(cnn.CNNModelHelper):
     #     return xform_out[0] if isinstance(xform_out, tuple) else xform_out
 
 
-    def OutputFpn(self, blobs_in, name):
+    def OutputFpn(self):
         k_max = cfg.FPN.RPN_MAX_LEVEL
         k_min = cfg.FPN.RPN_MIN_LEVEL
 
