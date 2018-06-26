@@ -228,8 +228,9 @@ def im_proposals(model, im):
             core.ScopedName('conv_rpn_fpn' + str(l))
             for l in range(k_min, k_max + 1)
         ]
-        features = workspace.FetchBlob(roi_fpn_inputs[0])
-        features.tofile('test.txt',sep=" ",format="%s")
+        features = workspace.FetchBlob(roi_fpn_inputs[0]).tolist()
+        print(features.shape)
+        # features.tofile('test.txt',sep=" ",format="%s")
         # print(features) 
         np.savetxt('test.out', features, delimiter=',') 
 
