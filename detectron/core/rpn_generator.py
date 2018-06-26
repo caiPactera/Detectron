@@ -51,7 +51,7 @@ import detectron.utils.net as nu
 import detectron.utils.subprocess as subprocess_utils
 
 logger = logging.getLogger(__name__)
-np.set_printoptions(threshold=np.nan)
+# np.set_printoptions(threshold=np.nan)
 
 def generate_rpn_on_dataset(
     weights_file,
