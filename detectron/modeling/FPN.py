@@ -213,8 +213,8 @@ def add_fpn(model, fpn_level_info):
                 weight_init=xavier_fill,
                 bias_init=const_fill(0.0)
             )
-        print('!!!!!!!!!!!!!!!!!!!fpn!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-        print('fpn_{}'.format(fpn_level_info.blobs[i]))
+        # print('!!!!!!!!!!!!!!!!!!!fpn!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        # print('fpn_{}'.format(fpn_level_info.blobs[i]))
         blobs_fpn += [fpn_blob]
         spatial_scales += [fpn_level_info.spatial_scales[i]]
 
