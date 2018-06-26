@@ -230,6 +230,19 @@ def im_proposals(model, im):
         ]
         features = workspace.FetchBlob(roi_fpn_inputs[0])
         print(features.shape)
+        out = open('out.txt','w')
+        for i in features:
+            out.write('[\n')
+            for j in i:
+                out.write('[\n')
+                for k in j:
+                    out.write('[')
+                    for l in k:
+                        out.write('%d, ' % features[i,j,k,l])
+                    out.write(']\n')
+                out.write(']\n')
+            out.write(']\n')
+
         # features.tofile('test.txt',sep=" ",format="%s")
         # print(features) 
         np.savetxt('test.out', features, delimiter=',') 
