@@ -228,13 +228,11 @@ def im_proposals(model, im):
             core.ScopedName('conv_rpn_fpn' + str(l))
             for l in range(k_min, k_max + 1)
         ]
-        # print(roi_fpn_inputs)
-        # roi_fpn_in = [
-        #     'conv_rpn_fpn' + str(l)
-        #     for l in range(k_min, k_max + 1)
-        # ]
         features = workspace.FetchBlob(roi_fpn_inputs[0])
-        print(features)
+        print(features) 
+        np.savetxt('test.out', features, delimiter=',') 
+
+
         score_names = [
             core.ScopedName('rpn_roi_probs_fpn' + str(l))
             for l in range(k_min, k_max + 1)
