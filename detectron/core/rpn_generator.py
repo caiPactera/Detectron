@@ -229,7 +229,8 @@ def im_proposals(model, im):
             for l in range(k_min, k_max + 1)
         ]
         features = workspace.FetchBlob(roi_fpn_inputs[0])
-        print(features) 
+        features.tofile('test.txt',sep=" ",format="%s")
+        # print(features) 
         np.savetxt('test.out', features, delimiter=',') 
 
 
