@@ -222,6 +222,13 @@ def im_proposals(model, im):
             core.ScopedName('rpn_rois_fpn' + str(l))
             for l in range(k_min, k_max + 1)
         ]
+
+        # modify here to print feature
+        roi_fpn_inputs = [
+            core.ScopedName('conv_rpn_fpn' + str(l))
+            for l in range(k_min, k_max + 1)
+        ]
+        print(roi_fpn_inputs)
         score_names = [
             core.ScopedName('rpn_roi_probs_fpn' + str(l))
             for l in range(k_min, k_max + 1)
