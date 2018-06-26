@@ -228,7 +228,7 @@ def im_proposals(model, im):
             core.ScopedName('conv_rpn_fpn' + str(l))
             for l in range(k_min, k_max + 1)
         ]
-        features = workspace.FetchBlob(roi_fpn_inputs[0]).tolist()
+        features = workspace.FetchBlob(roi_fpn_inputs[0])
         print(features.shape)
         # features.tofile('test.txt',sep=" ",format="%s")
         # print(features) 
