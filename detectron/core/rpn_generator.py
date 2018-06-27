@@ -238,7 +238,7 @@ def im_proposals(model, im):
                 for k in j:
                     out.write('[')
                     for l in k:
-                        out.write('%d, ' % l)
+                        out.write('%f, ' % l)
                     out.write(']\n')
                 out.write(']\n')
             out.write(']\n')
