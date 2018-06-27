@@ -230,7 +230,7 @@ def im_proposals(model, im):
         ]
         features = workspace.FetchBlob(roi_fpn_inputs[1])
         print(features.shape)
-        out = open('out.txt','w')
+        out = open('out_3.txt','w')
         for i in features:
             out.write('[\n')
             for j in i:
