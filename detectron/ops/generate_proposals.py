@@ -146,7 +146,7 @@ class GenerateProposalsOp(object):
         scores = scores[order]
 
         # Transform anchors into proposals via bbox transformations
-        # print(all_anchors)
+        print(all_anchors)
         proposals = box_utils.bbox_transform(
             all_anchors, bbox_deltas, (1.0, 1.0, 1.0, 1.0))
 
