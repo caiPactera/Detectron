@@ -153,6 +153,7 @@ class GenerateProposalsOp(object):
         # 2. clip proposals to image (may result in proposals with zero area
         # that will be removed in the next step)
         proposals = box_utils.clip_tiled_boxes(proposals, im_info[:2])
+        print(proposals)
 
         # 3. remove predicted boxes with either height or width < min_size
         keep = _filter_boxes(proposals, min_size, im_info)
