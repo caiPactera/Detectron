@@ -234,18 +234,18 @@ def im_proposals(model, im):
             print(workspace.FetchBlob(fpn).shape)
         rpn_fpn2 = workspace.FetchBlob(core.ScopedName('rpn_bbox_pred_fpn2'))
         print(rpn_fpn2)
-        # out = open('out_3.txt','w')
-        # for i in featdures:
-        #     out.write('[\n')
-        #     for j in i:
-        #         out.write('[\n')
-        #         for k in j:
-        #             out.write('[')
-        #             for l in k:
-        #                 out.write('%f, ' % l)
-        #             out.write(']\n')
-        #         out.write(']\n')
-        #     out.write(']\n')
+        out = open('out_3.txt','w')
+        for i in rpn_fpn2:
+            out.write('[\n')
+            for j in i:
+                out.write('[\n')
+                for k in j:
+                    out.write('[')
+                    for l in k:
+                        out.write('%f, ' % l)
+                    out.write(']\n')
+                out.write(']\n')
+            out.write(']\n')
 
         # features.tofile('test.txt',sep=" ",format="%s")
         # print(features) 
