@@ -82,8 +82,8 @@ class GenerateProposalsOp(object):
         num_images = inputs[0].shape[0]
         A = self._num_anchors
         K = shifts.shape[0]
-        # all_anchors = self._anchors[np.newaxis, :, :] + shifts[:, np.newaxis, :]
-        all_anchors = self._anchors[np.newaxis, :, :]
+        all_anchors = self._anchors[np.newaxis, :, :] + shifts[:, np.newaxis, :]
+        # all_anchors = self._anchors[np.newaxis, :, :]
         all_anchors = all_anchors.reshape((K * A, 4))
         print(all_anchors)
         rois = np.empty((0, 5), dtype=np.float32)

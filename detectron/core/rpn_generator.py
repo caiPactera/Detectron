@@ -233,7 +233,7 @@ def im_proposals(model, im):
         # for fpn in rois_names:
         #     print(workspace.FetchBlob(fpn))
         # rpn_fpn2 = workspace.FetchBlob(core.ScopedName('rpn_bbox_pred_fpn2'))
-        # print(rpn_fpn2)
+        print(workspace.FetchBlob(rois_names[0]))
         # out = open('out_3.txt','w')
         # for i in rpn_fpn2:
         #     out.write('[\n')
