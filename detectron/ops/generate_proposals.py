@@ -146,10 +146,10 @@ class GenerateProposalsOp(object):
         scores = scores[order]
 
         # Transform anchors into proposals via bbox transformations
-        print(all_anchors)
+        # print(all_anchors)
         proposals = box_utils.bbox_transform(
             all_anchors, bbox_deltas, (1.0, 1.0, 1.0, 1.0))
-
+        print(proposals)
         # 2. clip proposals to image (may result in proposals with zero area
         # that will be removed in the next step)
         proposals = box_utils.clip_tiled_boxes(proposals, im_info[:2])
