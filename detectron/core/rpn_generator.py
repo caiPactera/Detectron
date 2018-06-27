@@ -224,10 +224,10 @@ def im_proposals(model, im):
         ]
 
         # modify here to print feature
-        roi_fpn_inputs = [
-            core.ScopedName('conv_rpn_fpn' + str(l))
-            for l in range(k_min, k_max + 1)
-        ]
+        # roi_fpn_inputs = [
+        #     core.ScopedName('conv_rpn_fpn' + str(l))
+        #     for l in range(k_min, k_max + 1)
+        # ]
         # features = workspace.FetchBlob(roi_fpn_inputs[1])
         # print('new img')
         # for fpn in rois_names:

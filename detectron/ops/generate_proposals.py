@@ -85,7 +85,7 @@ class GenerateProposalsOp(object):
         # all_anchors = self._anchors[np.newaxis, :, :] + shifts[:, np.newaxis, :]
         all_anchors = self._anchors[np.newaxis, :, :]
         all_anchors = all_anchors.reshape((K * A, 4))
-        # print(all_anchors)
+        print(all_anchors)
         rois = np.empty((0, 5), dtype=np.float32)
         roi_probs = np.empty((0, 1), dtype=np.float32)
         for im_i in range(num_images):
@@ -150,11 +150,11 @@ class GenerateProposalsOp(object):
         # print(all_anchors)
         proposals = box_utils.bbox_transform(
             all_anchors, bbox_deltas, (1.0, 1.0, 1.0, 1.0))
-        print(proposals)
+        # print(proposals)
         # 2. clip proposals to image (may result in proposals with zero area
         # that will be removed in the next step)
         proposals = box_utils.clip_tiled_boxes(proposals, im_info[:2])
-        print(proposals)
+        # print(proposals)
 
         # 3. remove predicted boxes with either height or width < min_size
         keep = _filter_boxes(proposals, min_size, im_info)
