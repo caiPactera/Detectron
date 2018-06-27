@@ -230,8 +230,8 @@ def im_proposals(model, im):
         ]
         # features = workspace.FetchBlob(roi_fpn_inputs[1])
         # print('new img')
-        # for fpn in roi_fpn_inputs:
-        #     print(workspace.FetchBlob(fpn).shape)
+        for fpn in rois_names:
+            print(workspace.FetchBlob(fpn))
         # rpn_fpn2 = workspace.FetchBlob(core.ScopedName('rpn_bbox_pred_fpn2'))
         # print(rpn_fpn2)
         # out = open('out_3.txt','w')
