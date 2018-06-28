@@ -237,13 +237,17 @@ def im_proposals(model, im):
             for l in range(k_min, k_max + 1)
         ]
         roi_fpns = workspace.FetchBlobs(roi_fpn_names)
+        im_h = inputs['im_info'][0][0]
+        im_w = inputs['im_info'][0][1]
+        im_scale = inputs['im_info'][0][2]
         for i in range(len(rois)):
             roi_fpn = roi_fpns[i]
             roi = rois[i]
             for region in roi:
-                region = region[1:]
+                region = region[1:]/im_scale
                 print(region)
-                print(inputs['im_info'][0][0])
+                
+                # print()
                 # scaled_region = region*inputs['im_data'][0,2]
                 # print(scaled_region)
         #     print(workspace.FetchBlob(fpn))
