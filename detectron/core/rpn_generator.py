@@ -242,6 +242,7 @@ def im_proposals(model, im):
             roi = rois[i]
             for region in roi:
                 region = region[1:]
+                print(region)
                 print(inputs['im_data'])
                 # scaled_region = region*inputs['im_data'][0,2]
                 # print(scaled_region)
