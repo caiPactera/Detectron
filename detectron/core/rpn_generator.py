@@ -242,10 +242,12 @@ def im_proposals(model, im, imname):
         im_scale = inputs['im_info'][0][2]
         for i in range(len(rois)):
             roi_fpn = roi_fpns[i]
-            np.save(imname+'_fpn'+str(i), roi_fpn)
+            np.save(imname+'_fpn'+str(i+k_min), roi_fpn)
             roi = rois[i]
+            regions_file = open(imname + '_fpn' + str(i+k_min) + 'regions')
             for region in roi:
                 region = region[1:]/im_scale
+                region = region + [im_h, im_w]
                 print(region)
                 
                 # print()
