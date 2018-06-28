@@ -243,7 +243,7 @@ def im_proposals(model, im):
             for region in roi:
                 region = region[1:]
                 print(region)
-                print(inputs['im_data'])
+                print(inputs['im_info'])
                 # scaled_region = region*inputs['im_data'][0,2]
                 # print(scaled_region)
         #     print(workspace.FetchBlob(fpn))
