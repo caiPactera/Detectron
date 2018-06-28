@@ -85,7 +85,7 @@ class GenerateProposalsOp(object):
         all_anchors = self._anchors[np.newaxis, :, :] + shifts[:, np.newaxis, :]
         # all_anchors = self._anchors[np.newaxis, :, :]
         all_anchors = all_anchors.reshape((K * A, 4))
-        print(all_anchors)
+        # print(all_anchors)
         rois = np.empty((0, 5), dtype=np.float32)
         roi_probs = np.empty((0, 1), dtype=np.float32)
         for im_i in range(num_images):
