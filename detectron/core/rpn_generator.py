@@ -230,10 +230,21 @@ def im_proposals(model, im):
         # ]
         # features = workspace.FetchBlob(roi_fpn_inputs[1])
         # print('new img')
-        # for fpn in rois_names:
+        # for rois_name in rois_names:
+        rois = workspace.FetchBlobs(rois_names)
+        roi_fpn_names = [
+            core.ScopedName('conv_rpn_fpn' + str(l))
+            for l in range(k_min, k_max + 1)
+        ]
+        roi_fpns = workspace.FetchBlobs(roi_fpn_names)
+        for i in range(len(rois)):
+            roi_fpn = roi_fpns[i]
+            roi = rois[i]
+            for region in roi:
+                print(region)
         #     print(workspace.FetchBlob(fpn))
         # rpn_fpn2 = workspace.FetchBlob(core.ScopedName('rpn_bbox_pred_fpn2'))
-        print(workspace.FetchBlob(rois_names[0]))
+        # print(workspace.FetchBlob(rois_names[0]))
         # out = open('out_3.txt','w')
         # for i in rpn_fpn2:
         #     out.write('[\n')
