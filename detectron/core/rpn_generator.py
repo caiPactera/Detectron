@@ -247,7 +247,7 @@ def im_proposals(model, im, imname):
             # regions_file = open(imname + '_fpn' + str(i+k_min) + 'regions')
             for region in roi:
                 region = region[1:]/im_scale
-                region = region + [im_h, im_w]
+                region.extend([im_h, im_w])
                 print(region)
                 
                 # print()
