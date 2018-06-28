@@ -249,7 +249,7 @@ def im_proposals(model, im, imname):
                 region = region[1:]/im_scale
                 # region = np.concatenate(region, [im_h, im_w])
                 region = region.tolist()  + [im_h, im_w]
-                regions_file.write(region)
+                regions_file.write(str(region))
                 regions_file.write('\n')
                 # print(region)
                 
