@@ -187,7 +187,7 @@ def generate_proposals_on_roidb(
         im = cv2.imread(roidb[i]['image'])
         with c2_utils.NamedCudaScope(gpu_id):
             _t.tic()
-            roidb_boxes[i], roidb_scores[i] = im_proposals(model, im)
+            roidb_boxes[i], roidb_scores[i] = im_proposals(model, im, roidb[i]['image'])
             _t.toc()
         if i % 10 == 0:
             ave_time = _t.average_time
@@ -206,8 +206,9 @@ def generate_proposals_on_roidb(
     return roidb_boxes, roidb_scores, roidb_ids
 
 
-def im_proposals(model, im):
+def im_proposals(model, im, imname):
     """Generate RPN proposals on a single image."""
+    print(imname)
     inputs = {}
     inputs['data'], im_scale, inputs['im_info'] = \
         blob_utils.get_image_blob(im, cfg.TEST.SCALE, cfg.TEST.MAX_SIZE)
@@ -241,6 +242,7 @@ def im_proposals(model, im):
         im_w = inputs['im_info'][0][1]
         im_scale = inputs['im_info'][0][2]
         for i in range(len(rois)):
+            # fpn_out = open()
             roi_fpn = roi_fpns[i]
             roi = rois[i]
             for region in roi:
