@@ -208,7 +208,6 @@ def generate_proposals_on_roidb(
 
 def im_proposals(model, im, imname):
     """Generate RPN proposals on a single image."""
-    print(imname)
     inputs = {}
     inputs['data'], im_scale, inputs['im_info'] = \
         blob_utils.get_image_blob(im, cfg.TEST.SCALE, cfg.TEST.MAX_SIZE)
@@ -242,8 +241,10 @@ def im_proposals(model, im, imname):
         im_w = inputs['im_info'][0][1]
         im_scale = inputs['im_info'][0][2]
         for i in range(len(rois)):
-            # fpn_out = open()
+            fpn_out = open(imname+'_fpn'+str(i))
             roi_fpn = roi_fpns[i]
+            numpy.save(fpn_out, roi_fpn)
+            fpn_out
             roi = rois[i]
             for region in roi:
                 region = region[1:]/im_scale
