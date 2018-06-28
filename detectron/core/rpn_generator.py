@@ -242,8 +242,9 @@ def im_proposals(model, im):
             roi = rois[i]
             for region in roi:
                 region = region[1:]
-                scaled_region = region*inputs['im_data'][0,2]
-                print(scaled_region)
+                print(inputs['im_data'])
+                # scaled_region = region*inputs['im_data'][0,2]
+                # print(scaled_region)
         #     print(workspace.FetchBlob(fpn))
         # rpn_fpn2 = workspace.FetchBlob(core.ScopedName('rpn_bbox_pred_fpn2'))
         # print(workspace.FetchBlob(rois_names[0]))
