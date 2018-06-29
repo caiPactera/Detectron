@@ -223,58 +223,26 @@ def im_proposals(model, im, imname):
             for l in range(k_min, k_max + 1)
         ]
 
-        # modify here to print feature
-        # roi_fpn_inputs = [
+        # rois = workspace.FetchBlobs(rois_names)
+        # roi_fpn_names = [
         #     core.ScopedName('conv_rpn_fpn' + str(l))
         #     for l in range(k_min, k_max + 1)
         # ]
-        # features = workspace.FetchBlob(roi_fpn_inputs[1])
-        # print('new img')
-        # for rois_name in rois_names:
-        rois = workspace.FetchBlobs(rois_names)
-        roi_fpn_names = [
-            core.ScopedName('conv_rpn_fpn' + str(l))
-            for l in range(k_min, k_max + 1)
-        ]
-        roi_fpns = workspace.FetchBlobs(roi_fpn_names)
-        im_h = inputs['im_info'][0][0]
-        im_w = inputs['im_info'][0][1]
-        im_scale = inputs['im_info'][0][2]
-        for i in range(len(rois)):
-            roi_fpn = roi_fpns[i]
-            np.save(imname+'_fpn'+str(i+k_min), roi_fpn)
-            roi = rois[i]
-            regions_file = open(imname + '_fpn' + str(i+k_min) + 'regions', 'w')
-            for region in roi:
-                region = region[1:]/im_scale
-                # region = np.concatenate(region, [im_h, im_w])
-                region = region.tolist()  + [im_h, im_w]
-                regions_file.write(str(region))
-                regions_file.write('\n')
-                # print(region)
-                
-                # print()
-                # scaled_region = region*inputs['im_data'][0,2]
-                # print(scaled_region)
-        #     print(workspace.FetchBlob(fpn))
-        # rpn_fpn2 = workspace.FetchBlob(core.ScopedName('rpn_bbox_pred_fpn2'))
-        # print(workspace.FetchBlob(rois_names[0]))
-        # out = open('out_3.txt','w')
-        # for i in rpn_fpn2:
-        #     out.write('[\n')
-        #     for j in i:
-        #         out.write('[\n')
-        #         for k in j:
-        #             out.write('[')
-        #             for l in k:
-        #                 out.write('%f, ' % l)
-        #             out.write(']\n')
-        #         out.write(']\n')
-            # out.write(']\n')
-
-        # features.tofile('test.txt',sep=" ",format="%s")
-        # print(features) 
-        # np.savetxt('test.out', features, delimiter=',') 
+        # roi_fpns = workspace.FetchBlobs(roi_fpn_names)
+        # im_h = inputs['im_info'][0][0]
+        # im_w = inputs['im_info'][0][1]
+        # im_scale = inputs['im_info'][0][2]
+        # for i in range(len(rois)):
+        #     roi_fpn = roi_fpns[i]
+        #     np.save(imname+'_fpn'+str(i+k_min), roi_fpn)
+        #     roi = rois[i]
+        #     regions_file = open(imname + '_fpn' + str(i+k_min) + 'regions', 'w')
+        #     for region in roi:
+        #         region = region[1:]/im_scale
+        #         # region = np.concatenate(region, [im_h, im_w])
+        #         region = region.tolist()  + [im_h, im_w]
+        #         regions_file.write(str(region))
+        #         regions_file.write('\n')
 
 
         score_names = [
