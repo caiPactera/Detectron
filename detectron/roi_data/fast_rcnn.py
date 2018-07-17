@@ -144,7 +144,7 @@ def _sample_rois(roidb, im_scale, batch_idx):
     # Guard against the case when an image has fewer than fg_rois_per_image
     # foreground RoIs
     fg_rois_per_this_image = np.minimum(fg_rois_per_image, fg_inds.size)
-    workspace.FeedBlob('fg_num', fg_rois_per_this_image)
+    #workspace.FeedBlob('fg_num', fg_rois_per_this_image)
     # Sample foreground regions without replacement
     if fg_inds.size > 0:
         fg_inds = npr.choice(
@@ -191,7 +191,8 @@ def _sample_rois(roidb, im_scale, batch_idx):
         rois=sampled_rois,
         bbox_targets=bbox_targets,
         bbox_inside_weights=bbox_inside_weights,
-        bbox_outside_weights=bbox_outside_weights
+        bbox_outside_weights=bbox_outside_weights,
+        fg_num=fg_rois_per_this_image
     )
 
     # Optionally add Mask R-CNN blobs
