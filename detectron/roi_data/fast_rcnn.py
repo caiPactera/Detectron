@@ -44,10 +44,10 @@ def get_fast_rcnn_blob_names(is_training=True):
     # (batch_idx, x1, y1, x2, y2) specifying an image batch index and a
     # rectangle (x1, y1, x2, y2)
     blob_names = ['rois']
-    blob_names += ['fg_num']
     if is_training:
         # labels_int32 blob: R categorical labels in [0, ..., K] for K
         # foreground classes plus background
+        blob_names += ['fg_num']
         blob_names += ['labels_int32']
     if is_training:
         # bbox_targets blob: R bounding-box regression targets with 4
@@ -192,7 +192,7 @@ def _sample_rois(roidb, im_scale, batch_idx):
         bbox_targets=bbox_targets,
         bbox_inside_weights=bbox_inside_weights,
         bbox_outside_weights=bbox_outside_weights,
-        fg_num=fg_rois_per_this_image
+        fg_num=np.float32(fg_rois_per_this_image)
     )
 
     # Optionally add Mask R-CNN blobs
