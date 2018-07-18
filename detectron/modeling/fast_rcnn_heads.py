@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ##############################################################################
-
 """Various network "heads" for classification and bounding box prediction.
 
 The design is as follows:
@@ -38,10 +37,10 @@ from detectron.utils.c2 import gauss_fill
 from detectron.utils.net import get_group_gn
 import detectron.utils.blob as blob_utils
 
-
 # ---------------------------------------------------------------------------- #
 # Fast R-CNN outputs and losses
 # ---------------------------------------------------------------------------- #
+
 
 def add_fast_rcnn_outputs(model, blob_in, dim):
     """Add RoI classification and bounding box regression output ops."""
@@ -52,29 +51,28 @@ def add_fast_rcnn_outputs(model, blob_in, dim):
         dim,
         model.num_classes,
         weight_init=gauss_fill(0.01),
-        bias_init=const_fill(0.0)
-    )
+        bias_init=const_fill(0.0))
     if not model.train:  # == if test
         # Only add softmax when testing; during training the softmax is combined
         # with the label cross entropy loss for numerical stability
         model.Softmax('cls_score', 'cls_prob', engine='CUDNN')
     # Box regression layer
-    num_bbox_reg_classes = (
-        2 if cfg.MODEL.CLS_AGNOSTIC_BBOX_REG else model.num_classes
-    )
+    num_bbox_reg_classes = (2 if cfg.MODEL.CLS_AGNOSTIC_BBOX_REG else
+                            model.num_classes)
     model.FC(
         blob_in,
         'bbox_pred',
         dim,
         num_bbox_reg_classes * 4,
         weight_init=gauss_fill(0.001),
-        bias_init=const_fill(0.0)
-    )
+        bias_init=const_fill(0.0))
     # reshape cls_score
-    model.net.Reshape(['cls_score'], ['cls_score_reshape', 'old_shape'], shape=(dim,model.num_classes,1,1))
+    model.net.Reshape(
+        ['cls_score'], ['cls_score_reshape', 'scl_score_old_shape'],
+        shape=(dim, model.num_classes, 1, 1))
 
 
-def add_fast_rcnn_losses(model):
+def add_fast_rcnn_losses(model, dim):
     """Add losses for RoI classification and bounding box regression."""
     # cls_prob, loss_cls = model.net.SoftmaxWithLoss(
     #     ['cls_score', 'labels_int32'], ['cls_prob', 'loss_cls'],
@@ -93,16 +91,16 @@ def add_fast_rcnn_losses(model):
     #         )
 
     loss_cls, cls_prob = model.net.SoftmaxFocalLoss(
-                [
-                    'cls_score_reshape', 'labels_int32',
-                    'fg_num'
-                ],
-                ['loss_cls', 'cls_prob'],
-                gamma=cfg.RETINANET.LOSS_GAMMA,
-                alpha=cfg.RETINANET.LOSS_ALPHA,
-                scale=model.GetLossScale(),
-                num_classes=model.num_classes
-            )
+        ['cls_score_reshape', 'labels_int32', 'fg_num'],
+        ['loss_cls', 'cls_prob'],
+        gamma=cfg.RETINANET.LOSS_GAMMA,
+        alpha=cfg.RETINANET.LOSS_ALPHA,
+        scale=model.GetLossScale(),
+        num_classes=model.num_classes)
+
+    cls_prob_reshaped = model.net.Reshape(
+        ['cls_prob'], ['cls_prob_reshape', 'prob_old_shape'],
+        shape=(dim, model.num_classes))
 
     loss_bbox = model.net.SmoothL1Loss(
         [
@@ -110,10 +108,10 @@ def add_fast_rcnn_losses(model):
             'bbox_outside_weights'
         ],
         'loss_bbox',
-        scale=model.GetLossScale()
-    )
-    loss_gradients = blob_utils.get_loss_gradients(model, [loss_cls, loss_bbox])
-    model.Accuracy(['cls_prob', 'labels_int32'], 'accuracy_cls')
+        scale=model.GetLossScale())
+    loss_gradients = blob_utils.get_loss_gradients(model,
+                                                   [loss_cls, loss_bbox])
+    model.Accuracy([cls_prob_reshaped, 'labels_int32'], 'accuracy_cls')
     model.AddLosses(['loss_cls', 'loss_bbox'])
     model.AddMetrics('accuracy_cls')
     return loss_gradients
@@ -122,6 +120,7 @@ def add_fast_rcnn_losses(model):
 # ---------------------------------------------------------------------------- #
 # Box heads
 # ---------------------------------------------------------------------------- #
+
 
 def add_roi_2mlp_head(model, blob_in, dim_in, spatial_scale):
     """Add a ReLU MLP with two hidden layers."""
@@ -134,8 +133,7 @@ def add_roi_2mlp_head(model, blob_in, dim_in, spatial_scale):
         method=cfg.FAST_RCNN.ROI_XFORM_METHOD,
         resolution=roi_size,
         sampling_ratio=cfg.FAST_RCNN.ROI_XFORM_SAMPLING_RATIO,
-        spatial_scale=spatial_scale
-    )
+        spatial_scale=spatial_scale)
     model.FC(roi_feat, 'fc6', dim_in * roi_size * roi_size, hidden_dim)
     model.Relu('fc6', 'fc6')
     model.FC('fc6', 'fc7', hidden_dim, hidden_dim)
@@ -154,16 +152,22 @@ def add_roi_Xconv1fc_head(model, blob_in, dim_in, spatial_scale):
         method=cfg.FAST_RCNN.ROI_XFORM_METHOD,
         resolution=roi_size,
         sampling_ratio=cfg.FAST_RCNN.ROI_XFORM_SAMPLING_RATIO,
-        spatial_scale=spatial_scale
-    )
+        spatial_scale=spatial_scale)
 
     current = roi_feat
     for i in range(cfg.FAST_RCNN.NUM_STACKED_CONVS):
         current = model.Conv(
-            current, 'head_conv' + str(i + 1), dim_in, hidden_dim, 3,
-            stride=1, pad=1,
+            current,
+            'head_conv' + str(i + 1),
+            dim_in,
+            hidden_dim,
+            3,
+            stride=1,
+            pad=1,
             weight_init=('MSRAFill', {}),
-            bias_init=('ConstantFill', {'value': 0.}),
+            bias_init=('ConstantFill', {
+                'value': 0.
+            }),
             no_bias=0)
         current = model.Relu(current, current)
         dim_in = hidden_dim
@@ -179,22 +183,29 @@ def add_roi_Xconv1fc_gn_head(model, blob_in, dim_in, spatial_scale):
     hidden_dim = cfg.FAST_RCNN.CONV_HEAD_DIM
     roi_size = cfg.FAST_RCNN.ROI_XFORM_RESOLUTION
     roi_feat = model.RoIFeatureTransform(
-        blob_in, 'roi_feat',
+        blob_in,
+        'roi_feat',
         blob_rois='rois',
         method=cfg.FAST_RCNN.ROI_XFORM_METHOD,
         resolution=roi_size,
         sampling_ratio=cfg.FAST_RCNN.ROI_XFORM_SAMPLING_RATIO,
-        spatial_scale=spatial_scale
-    )
+        spatial_scale=spatial_scale)
 
     current = roi_feat
     for i in range(cfg.FAST_RCNN.NUM_STACKED_CONVS):
         current = model.ConvGN(
-            current, 'head_conv' + str(i + 1), dim_in, hidden_dim, 3,
+            current,
+            'head_conv' + str(i + 1),
+            dim_in,
+            hidden_dim,
+            3,
             group_gn=get_group_gn(hidden_dim),
-            stride=1, pad=1,
+            stride=1,
+            pad=1,
             weight_init=('MSRAFill', {}),
-            bias_init=('ConstantFill', {'value': 0.}))
+            bias_init=('ConstantFill', {
+                'value': 0.
+            }))
         current = model.Relu(current, current)
         dim_in = hidden_dim
 
