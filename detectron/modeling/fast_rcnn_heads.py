@@ -36,7 +36,7 @@ from detectron.utils.c2 import const_fill
 from detectron.utils.c2 import gauss_fill
 from detectron.utils.net import get_group_gn
 import detectron.utils.blob as blob_utils
-
+from caffe2.python import workspace
 # ---------------------------------------------------------------------------- #
 # Fast R-CNN outputs and losses
 # ---------------------------------------------------------------------------- #
@@ -69,7 +69,7 @@ def add_fast_rcnn_outputs(model, blob_in, dim):
     # reshape cls_score
     model.net.Reshape(
         ['cls_score'], ['cls_score_reshape', 'scl_score_old_shape'],
-        shape=(dim, model.num_classes, 1, 1))
+        shape=(36, model.num_classes, 1, 1))
 
 
 def add_fast_rcnn_losses(model, dim):
@@ -100,7 +100,7 @@ def add_fast_rcnn_losses(model, dim):
 
     cls_prob_reshaped = model.net.Reshape(
         ['cls_prob'], ['cls_prob_reshape', 'prob_old_shape'],
-        shape=(dim, model.num_classes))
+        shape=(36, model.num_classes))
 
     loss_bbox = model.net.SmoothL1Loss(
         [
