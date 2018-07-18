@@ -98,9 +98,9 @@ def add_fast_rcnn_losses(model):
         scale=model.GetLossScale(),
         num_classes=model.num_classes)
 
-    cls_prob_reshape = model.net.Reshape(
-        ['cls_prob'], ['cls_prob_reshape', 'prob_old_shape'],
-        shape=(0, 0))
+    # cls_prob_reshape = model.net.Reshape(
+    #     ['cls_prob'], ['cls_prob_reshape', 'prob_old_shape'],
+    #     shape=(0, 0))
 
     loss_bbox = model.net.SmoothL1Loss(
         [
