@@ -112,12 +112,10 @@ def add_fast_rcnn_blobs(blobs, im_scales, roidb):
     # Sample training RoIs from each image and append them to the blob lists
     for im_i, entry in enumerate(roidb):
         frcn_blobs = _sample_rois(entry, im_scales[im_i], im_i)
-        #blobs['fg_num'] = blobs['fg_num'].astype(np.float32)
         for k, v in frcn_blobs.items():
-            print(k)
-            if(k == 'fg_num'):
-                print(v)
             blobs[k].append(v)
+            
+    print(blobs['fg_num'])
     # Concat the training blob lists into tensors
     #
     for k, v in blobs.items():
@@ -197,7 +195,7 @@ def _sample_rois(roidb, im_scale, batch_idx):
         bbox_targets=bbox_targets,
         bbox_inside_weights=bbox_inside_weights,
         bbox_outside_weights=bbox_outside_weights,
-        fg_num=np.array(fg_rois_per_this_image, dtype=np.float32)
+        fg_num=fg_rois_per_this_image
     )
 
     # Optionally add Mask R-CNN blobs
