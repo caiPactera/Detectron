@@ -100,7 +100,7 @@ def add_fast_rcnn_losses(model):
 
     cls_prob_reshape = model.net.Reshape(
         ['cls_prob'], ['cls_prob_reshape', 'prob_old_shape'],
-        shape=(0, -1))
+        shape=(0, 0))
 
     loss_bbox = model.net.SmoothL1Loss(
         [
@@ -111,7 +111,7 @@ def add_fast_rcnn_losses(model):
         scale=model.GetLossScale())
     loss_gradients = blob_utils.get_loss_gradients(model,
                                                    [loss_cls, loss_bbox])
-    model.Accuracy(['cls_prob_reshape', 'labels_int32'], 'accuracy_cls')
+    model.Accuracy(['cls_prob', 'labels_int32'], 'accuracy_cls')
     model.AddLosses(['loss_cls', 'loss_bbox'])
     model.AddMetrics('accuracy_cls')
     return loss_gradients
