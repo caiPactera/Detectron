@@ -139,11 +139,12 @@ def add_retinanet_blobs(blobs, im_scales, roidb, image_width, image_height):
                 blobs[key].append(v)
         blobs['retnet_fg_num'] += fg_num
         blobs['retnet_bg_num'] += bg_num
-    print(blobs['retnet_fg_num'])
+    # print(blobs['retnet_fg_num'])
     blobs['retnet_fg_num'] = blobs['retnet_fg_num'].astype(np.float32)
     blobs['retnet_bg_num'] = blobs['retnet_bg_num'].astype(np.float32)
 
     N = len(roidb)
+    print(N)
     for k, v in blobs.items():
         if isinstance(v, list) and len(v) > 0:
             # compute number of anchors
