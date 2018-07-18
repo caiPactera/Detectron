@@ -78,17 +78,28 @@ def add_fast_rcnn_losses(model):
     #     ['cls_score', 'labels_int32'], ['cls_prob', 'loss_cls'],
     #     scale=model.GetLossScale()
     # )
-    loss_cls, cls_prob = model.net.SoftmaxFocalLoss(
+    loss_cls = model.net.SigmoidFocalLoss(
                 [
                     'cls_score', 'labels_int32',
                     'fg_num'
                 ],
-                ['loss_cls', 'cls_prob'],
+                ['loss_cls'],
                 gamma=cfg.RETINANET.LOSS_GAMMA,
                 alpha=cfg.RETINANET.LOSS_ALPHA,
                 scale=model.GetLossScale(),
-                num_classes=model.num_classes
+                num_classes=model.num_classes - 1
             )
+    # loss_cls, cls_prob = model.net.SoftmaxFocalLoss(
+    #             [
+    #                 'cls_score', 'labels_int32',
+    #                 'fg_num'
+    #             ],
+    #             ['loss_cls', 'cls_prob'],
+    #             gamma=cfg.RETINANET.LOSS_GAMMA,
+    #             alpha=cfg.RETINANET.LOSS_ALPHA,
+    #             scale=model.GetLossScale(),
+    #             num_classes=model.num_classes
+    #         )
 
     loss_bbox = model.net.SmoothL1Loss(
         [
