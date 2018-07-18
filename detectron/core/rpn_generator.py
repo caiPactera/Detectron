@@ -35,8 +35,6 @@ import numpy as np
 import os
 import yaml
 
-from caffe2.python import core
-from caffe2.python import workspace
 
 from detectron.core.config import cfg
 from detectron.datasets import task_evaluation
