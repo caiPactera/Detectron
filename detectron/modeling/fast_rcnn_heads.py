@@ -69,10 +69,10 @@ def add_fast_rcnn_outputs(model, blob_in, dim):
     # reshape cls_score
     model.net.Reshape(
         ['cls_score'], ['cls_score_reshape', 'scl_score_old_shape'],
-        shape=(36, model.num_classes, 1, 1))
+        shape=(0, 0, 1, 1))
 
 
-def add_fast_rcnn_losses(model, dim):
+def add_fast_rcnn_losses(model):
     """Add losses for RoI classification and bounding box regression."""
     # cls_prob, loss_cls = model.net.SoftmaxWithLoss(
     #     ['cls_score', 'labels_int32'], ['cls_prob', 'loss_cls'],

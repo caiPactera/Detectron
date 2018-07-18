@@ -255,7 +255,7 @@ def _add_fast_rcnn_head(
     )
     fast_rcnn_heads.add_fast_rcnn_outputs(model, blob_frcn, dim_frcn)
     if model.train:
-        loss_gradients = fast_rcnn_heads.add_fast_rcnn_losses(model,dim_frcn)
+        loss_gradients = fast_rcnn_heads.add_fast_rcnn_losses(model)
     else:
         loss_gradients = None
     return loss_gradients
