@@ -70,6 +70,8 @@ def add_fast_rcnn_outputs(model, blob_in, dim):
         weight_init=gauss_fill(0.001),
         bias_init=const_fill(0.0)
     )
+    # reshape cls_score
+    model.net.Reshape(['cls_score'], ['cls_score_reshape', 'old_shape'], shape=(dim,model.num_classes,1,1))
 
 
 def add_fast_rcnn_losses(model):
@@ -89,9 +91,10 @@ def add_fast_rcnn_losses(model):
     #             scale=model.GetLossScale(),
     #             num_classes=model.num_classes - 1
     #         )
+
     loss_cls, cls_prob = model.net.SoftmaxFocalLoss(
                 [
-                    'cls_score', 'labels_int32',
+                    'cls_score_reshape', 'labels_int32',
                     'fg_num'
                 ],
                 ['loss_cls', 'cls_prob'],
