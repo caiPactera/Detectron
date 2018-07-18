@@ -142,6 +142,7 @@ def add_retinanet_blobs(blobs, im_scales, roidb, image_width, image_height):
 
     blobs['retnet_fg_num'] = blobs['retnet_fg_num'].astype(np.float32)
     blobs['retnet_bg_num'] = blobs['retnet_bg_num'].astype(np.float32)
+    print(blobs['retnet_fg_num'])
 
     N = len(roidb)
     for k, v in blobs.items():
